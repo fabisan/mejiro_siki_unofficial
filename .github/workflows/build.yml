@@ -1,36 +1,5 @@
-name: Build ZMK Firmware for TOTEM
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build_left:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: zmkfirmware/zmk-build@main
-        with:
-          board: seeeduino_xiao_ble
-          shield: mejiro_left
-          config_path: config
-      - uses: actions/upload-artifact@v4
-        with:
-          name: mejiro_left_uf2
-          path: build/artifacts/*.uf2
-
-  build_right:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: zmkfirmware/zmk-build@main
-        with:
-          board: seeeduino_xiao_ble
-          shield: mejiro_right
-          config_path: config
-      - uses: actions/upload-artifact@v4
-        with:
-          name: mejiro_right_uf2
-          path: build/artifacts/*.uf2
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
